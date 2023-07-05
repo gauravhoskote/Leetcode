@@ -1,19 +1,14 @@
 class Solution {
 public:
+
+    int f(int i, vector<int>& nums, vector<int>& dp){
+        if(i < 0)return 0;
+        if(dp[i] != -1)return dp[i];
+        return dp[i] = max(nums[i]+f(i-2, nums, dp), max(f(i-2, nums, dp), f(i-1, nums, dp)) );
+    }
+
     int rob(vector<int>& nums) {
-        int n = nums.size();
-        vector<int> arr(nums.size(), 0);
-        if (n == 1){
-            return nums[0];
-        }
-        if(n == 2){
-            return max(nums[0], nums[1]);
-        }
-        arr[0] = nums[0];
-        arr[1] = max(nums[0], nums[1]);
-        for(int i = 2; i < n; i++){
-            arr[i] = max(nums[i] + arr[i-2], arr[i-1]);
-        }
-        return arr.back();
+        vector<int> dp(nums.size(), -1);
+        return max(f(nums.size()-1, nums, dp), f(nums.size()-2, nums, dp));
     }
 };
