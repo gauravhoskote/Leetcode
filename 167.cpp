@@ -1,11 +1,17 @@
 class Solution {
 public:
     vector<int> twoSum(vector<int>& numbers, int target) {
-        for(int i= 0; i < numbers.size()-1; i++){
-            if(binary_search(numbers.begin()+i+1, numbers.end(), target - numbers[i])){
-                return {i+1,(int)(lower_bound(numbers.begin()+i+1, numbers.end(), target - numbers[i]) - numbers.begin())+1};
+        int l = 0;
+        int r = numbers.size()-1;
+        while(l <= r){
+            if(numbers[l]+numbers[r] > target){
+                r--;
+            }else if(numbers[l]+numbers[r] < target){
+                l++;
+            }else{
+                return vector<int>({l+1,r+1});
             }
         }
-        return {0,0};
+        return vector<int>({0,0});
     }
 };
