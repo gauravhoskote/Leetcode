@@ -1,22 +1,18 @@
 class Solution {
 public:
     vector<vector<string>> groupAnagrams(vector<string>& strs) {
-        map< map<char,int> , vector<string> > mm;
+        vector<vector<string>> sol;
+        map<map<char, int>, vector<string>> m;
         for(int i = 0; i < strs.size(); i++){
-            map<char, int> m;
-            for(char c : strs[i]){
-                m[c]++;
+            map<char, int> mm;
+            for(auto el : strs[i]){
+                mm[el]++;
             }
-            if(mm.find(m) == mm.end()){
-                mm[m] = {strs[i]};
-            }else{
-                mm[m].push_back(strs[i]);
-            }
+            m[mm].push_back(strs[i]);
         }
-        vector<vector<string>> ans;
-        for(auto it : mm){
-            ans.push_back(it.second);
+        for(auto it = m.begin(); it != m.end(); it++){
+            sol.push_back(it->second);
         }
-        return ans;
+        return sol;
     }
 };
