@@ -1,32 +1,34 @@
 class Solution:
+
+    def incr(self, ss, tt, k, skeys):
+        ss[k] = ss.get(k,0) + 1
+        if ss[k] == tt[k]:
+            return skeys + 1
+        return skeys
+
+    def decr(self, ss, tt, k, skeys):
+        ss[k] -= 1
+        if tt[k] > ss[k]:
+            return skeys - 1
+        return skeys
+
     def minWindow(self, s: str, t: str) -> str:
-        if len(t) == 0:
-            return ""
-        dt = {}
-        dtn = {}
+        tt = Counter(t)
+        nkeys = len(tt.keys())
+        ss = {}
+        skeys = 0
         l = 0
-        p = 0
-        for x in t:
-            dt[x] = 1 + dt.get(x, 0)
-        req = len(dt.keys())
-        res_range = [-1,-1]
-        res = float("infinity")
-        for r in range(len(s)):
-            curr = s[r]
-            dtn[curr] = 1 + dtn.get(curr, 0)
-            if curr in dt.keys() and dtn[curr] == dt[curr]:
-                p = p + 1
-            while p == req:
-                if r-l+1 < res:
-                    res = r-l+1
-                    res_range = [l,r]
-                x = s[l]
-                dtn[x] = dtn[x] - 1
-                if x in dt.keys() and dtn[x] < dt[x]:
-                    p = p - 1
-                l = l+1
-        if res == float("infinity"):
-            return ""
-        else:
-            sol = s[res_range[0] : res_range[1] + 1]
-            return sol
+        sol  = ''
+        r = 0
+        while r < len(s):
+            skeys = self.incr(ss, tt, s[r], skeys)
+            while skeys == nkeys:
+                if sol != '':
+                    if r - l < len(sol):
+                        sol = s[l:r+1]
+                else:
+                    sol = s[l:r+1]
+                skeys = self.decr(ss, tt, s[l], skeys)
+                l = l + 1
+            r+=1
+        return sol
