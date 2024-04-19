@@ -1,15 +1,15 @@
 class Solution:
-    def lengthOfLongestSubstring(self, nums: str) -> int:
+    def maximumUniqueSubarray(self, nums: List[int]) -> int:
         l = 0
-        ss = set()
+        summ = 0
         sol = 0
-        curr = 0
+        ss = set()
         for r in range(len(nums)):
-            curr += 1
+            summ += nums[r]
             while nums[r] in ss:
-                curr-=1
                 ss.remove(nums[l])
+                summ -= nums[l]
                 l+=1
             ss.add(nums[r])
-            sol = max(sol, r-l+1)
+            sol = max(sol, summ)
         return sol
