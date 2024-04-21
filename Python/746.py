@@ -1,7 +1,12 @@
 class Solution:
+    def f(self, i, cost, dp):
+        if i >= len(cost):
+            return 0
+        if i in dp:
+            return dp[i]
+        dp[i] = min(cost[i] + self.f(i+1,cost, dp), cost[i] + self.f(i+2,cost, dp))
+        return dp[i]
+
     def minCostClimbingStairs(self, cost: List[int]) -> int:
-        if len(cost) <= 2:
-            return min(cost)
-        for i in range(2, len(cost)):
-            cost[i] += min(cost[i-1], cost[i-2])
-        return min(cost[-1], cost[-2])
+        dp = {}
+        return min(self.f(0,cost, dp), self.f(1,cost, dp))
