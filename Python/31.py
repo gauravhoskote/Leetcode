@@ -3,12 +3,21 @@ class Solution:
         """
         Do not return anything, modify nums in-place instead.
         """
-        r = len(nums)-2
-        while r >= 0 and nums[r] >= nums[r+1]:
-            r-=1
-        if r>= 0:
-            last= len(nums)-1
-            while nums[last]<= nums[r]:
-                last-=1
-            nums[r],nums[last] = nums[last],nums[r]
-        nums[r+1:] = nums[r+1:][::-1]
+        if len(nums) == 1:
+            return 
+        i = len(nums)-2
+        j = len(nums)-1
+
+        while i >= 0 and nums[i] >= nums[i+1]:
+            i-=1
+        
+        if i>=0:
+            while j > i and nums[i]>= nums[j]:
+                j-=1
+            nums[i],nums[j] = nums[j],nums[i]
+        j = len(nums)-1
+        i+=1
+        while i < j:
+            nums[i],nums[j] = nums[j],nums[i]
+            i+=1
+            j-=1
